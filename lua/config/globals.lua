@@ -1,2 +1,6 @@
-vim.g.mapleader = ""
-vim.g.maplocalleader= ""
+-- Setting the global leader key to space
+vim.g.mapleader = " "
+
+-- Setting the local leader key to space
+vim.g.maplocalleader = " "
+
