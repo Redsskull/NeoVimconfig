@@ -12,9 +12,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require('config.globals')
-require('config.options')
-require('config.keymaps')
+require("config.globals")
+require("config.options")
+require("config.keymaps")
+
+local plugins = "plugins"
 
 local opts = {
 	defaults = {
@@ -25,9 +27,10 @@ local opts = {
 	},
 	rtp={
 		disabled_plugins = {
-	"gzip",
+	      "gzip",
         "matchit",
         "matchparen",
+        "netrw",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
