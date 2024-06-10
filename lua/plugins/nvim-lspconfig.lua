@@ -2,6 +2,7 @@ local on_attach = require("util.lsp").on_attach
 
 local config = function()
   require("neoconf").setup({})
+  local cmp_nvim_lsp= require("cmp_nvim_lsp")
 
   local lspconfig = require("lspconfig")
 
