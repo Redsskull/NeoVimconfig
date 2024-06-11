@@ -46,6 +46,8 @@ local config = function()
 			},
 		},
 	})
+	
+	require('nvim-ts-autotag').setup()
 end
 
 return {
@@ -53,3 +55,4 @@ return {
 	lazy = false,
 	config = config,
 }
+
