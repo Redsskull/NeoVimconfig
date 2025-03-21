@@ -28,8 +28,8 @@ keymap.set("n", "<leader>sh", ":split<CR>", opts) -- Split Horizontally
 keymap.set("n", "<leader>sm", "MaximizerToggle<CR>", opts) -- Toggle Minimize
 
 -- indenting
-keymap.set("v", "<", "<gv")
-keymap.set("v",">", ">gv")
+keymap.set("n", "<", "<<")
+keymap.set("n", ">", ">>")
 
 -- Comments
 vim.api.nvim_set_keymap("n", "<C-\\>", "gcc", { noremap = false })
