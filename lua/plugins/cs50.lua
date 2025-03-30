@@ -26,16 +26,18 @@ return {
         vim.cmd("write")
         vim.cmd("split term://style50 " .. vim.fn.expand("%"))
       end, desc = "Check style with style50" },
+      
+      -- Added this key mapping as part of the nvim-lspconfig plugin
+      { "<leader>cs", function()
+        -- Ask for filename
+        local file = vim.fn.input("New CS50 file name (without .c): ")
+        if file ~= "" then
+          -- Create new file from template
+          vim.cmd("edit " .. file .. ".c")
+          vim.cmd("0read ~/.config/nvim/templates/cs50.c")
+          vim.cmd("normal! G")
+        end
+      end, desc = "Create new CS50 C file" },
     },
   },
-{ "<leader>cs", function()
-    -- Ask for filename
-    local file = vim.fn.input("New CS50 file name (without .c): ")
-    if file ~= "" then
-      -- Create new file from template
-      vim.cmd("edit " .. file .. ".c")
-      vim.cmd("0read ~/.config/nvim/templates/cs50.c")
-      vim.cmd("normal! G")
-    end
-  end, desc = "Create new CS50 C file" },
 }
