@@ -39,12 +39,17 @@ local config = function()
 		},
 	})
 
-	-- C/C++(Clanged)
+	--C/C++
 	lspconfig.clangd.setup({
 		capabilities = capabilities,
 		on_attach = on_attach,
-		filetypes = { "c", "cpp", "objc", "objcpp" },
-		root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+		cmd = {
+			"clangd",
+			"--background-index",
+			"--suggest-missing-includes",
+			"--clang-tidy",
+			"--header-insertion=iwyu",
+		},
 	})
 
 	-- JSON
@@ -137,8 +142,8 @@ local config = function()
 	local alex = require("efmls-configs.linters.alex")
 	local hadolint = require("efmls-configs.linters.hadolint")
 	local solhint = require("efmls-configs.linters.solhint")
-  local clang_format = require("efmls-configs.formatters.clang_format")
-  local cpplint = require("efmls-configs.linters.cpplint")
+	local cpplint = require("efmls-configs.linters.cpplint")
+	local clang_format = require("efmls-configs.formatters.clang_format")
 
 	-- Configure EFM server
 	lspconfig.efm.setup({
@@ -159,8 +164,8 @@ local config = function()
 			"markdown",
 			"docker",
 			"solidity",
-			"html", -- Add html
-			"css", -- Add css
+			"html",
+			"css",
 		},
 		init_options = {
 			documentFormatting = true,
@@ -186,10 +191,8 @@ local config = function()
 				markdown = { alex, prettierd },
 				docker = { hadolint, prettierd },
 				solidity = { solhint },
-				html = { eslint_d, prettierd }, -- Add linters/formatters for html
-				css = { eslint_d, prettierd }, -- Add linters/formatters for css
-        c = { clang_format, cpplint }, -- Add linters/formatters for c
-        cpp = { clang_format, cpplint }, -- Add linters/formatters for cpp
+				html = { eslint_d, prettierd },
+				css = { eslint_d, prettierd },
 			},
 		},
 	})
