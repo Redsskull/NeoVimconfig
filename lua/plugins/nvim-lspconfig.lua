@@ -12,11 +12,16 @@ local config = function()
 		Info = "ℹ", -- Information symbol
 	}
 
-	for type, icon in pairs(diagnostic_signs) do
-		local hl = "DiagnosticSign" .. type
-		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-	end
-
+vim.diagnostic.config({
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = diagnostic_signs.Error,
+            [vim.diagnostic.severity.WARN] = diagnostic_signs.Warn,
+            [vim.diagnostic.severity.INFO] = diagnostic_signs.Info,
+            [vim.diagnostic.severity.HINT] = diagnostic_signs.Hint,
+        },
+    },
+})
 	local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 	-- Lua
