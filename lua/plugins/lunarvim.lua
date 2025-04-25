@@ -1,14 +1,15 @@
--- In ~/.config/nvim/lua/plugins/lunarvim.lua
 return {
     "mistweaverco/retro-theme.nvim",
     lazy = false,
     priority = 1000,
     config = function()
-        -- Some themes might need to be required/set up before using
+        -- First require the theme
         require("retro-theme")
-        vim.cmd.colorscheme("retro-theme") -- Try with full name
-        -- Or try these alternatives if the above doesn't work:
-        -- vim.cmd.colorscheme("retro_theme") 
-        -- vim.cmd.colorscheme("retro")
+        
+        -- Set the colorscheme
+        vim.cmd.colorscheme("retro-theme")
+        
+        -- Override just the comment color to grey after the colorscheme is loaded
+        vim.api.nvim_set_hl(0, "Comment", { fg = "#888888", italic = true })
     end
 }

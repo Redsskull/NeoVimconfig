@@ -1,19 +1,16 @@
 local opt = vim.opt
-
 --Tab / Indentation
-opt.tabstop = 2
-opt.shiftwidth = 2
-opt.softtabstop = 2
+opt.tabstop = 4
+opt.shiftwidth = 4
+opt.softtabstop = 4
 opt.expandtab = true
 opt.smartindent = true
 opt.wrap = false
-
 -- Search
 opt.incsearch = true
 opt.ignorecase = true
 opt.smartcase = true
 opt.hlsearch = false
-
 --Appearance
 opt.number = true
 opt.relativenumber = true
@@ -22,7 +19,9 @@ opt.signcolumn = "yes"
 opt.cmdheight = 1
 opt.scrolloff = 10
 opt.completeopt = "menuone,noinsert,noselect"
-
+opt.fillchars:append({ eob = " " })  -- Remove tilde characters
+-- CS50 style enhancements 
+opt.cursorline = true            -- Highlight current line
 --Behaviour
 opt.hidden = true
 opt.errorbells = true
