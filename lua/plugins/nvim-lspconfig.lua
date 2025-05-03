@@ -12,16 +12,27 @@ local config = function()
 		Info = "ℹ", -- Information symbol
 	}
 
-vim.diagnostic.config({
-    signs = {
-        text = {
-            [vim.diagnostic.severity.ERROR] = diagnostic_signs.Error,
-            [vim.diagnostic.severity.WARN] = diagnostic_signs.Warn,
-            [vim.diagnostic.severity.INFO] = diagnostic_signs.Info,
-            [vim.diagnostic.severity.HINT] = diagnostic_signs.Hint,
+    -- Enhanced diagnostic configuration for better visibility
+    vim.diagnostic.config({
+        virtual_text = true,  -- Show diagnostics inline with code
+        signs = {
+            text = {
+                [vim.diagnostic.severity.ERROR] = diagnostic_signs.Error,
+                [vim.diagnostic.severity.WARN] = diagnostic_signs.Warn,
+                [vim.diagnostic.severity.INFO] = diagnostic_signs.Info,
+                [vim.diagnostic.severity.HINT] = diagnostic_signs.Hint,
+            },
         },
-    },
-})
+        float = {
+            border = "rounded",
+            source = "always",
+            header = "",
+            prefix = "",
+        },
+        severity_sort = true,  -- Sort diagnostics by severity
+        update_in_insert = false,  -- Don't update diagnostics in insert mode
+    })
+
 	local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 	-- Lua
@@ -49,12 +60,21 @@ vim.diagnostic.config({
 		capabilities = capabilities,
 		on_attach = on_attach,
 		cmd = {
-			"clangd",
-			"--background-index",
-			"--suggest-missing-includes",
-			"--clang-tidy",
-			"--header-insertion=iwyu",
+			 "clangd",
+             "--background-index",
+             "--suggest-missing-includes",
+             "--clang-tidy",
+             "--header-insertion=iwyu",
+             "--completion-style=detailed",
+             "--function-arg-placeholders",
+             "--fallback-style=llvm"
 		},
+        init_options = {
+            clangdFileStatus = true,
+            usePlaceholders = true,
+            completeUnimported = true,
+            semanticHighlighting = true,
+        },
 	})
 
 	-- JSON
@@ -147,10 +167,9 @@ vim.diagnostic.config({
 	local alex = require("efmls-configs.linters.alex")
 	local hadolint = require("efmls-configs.linters.hadolint")
 	local solhint = require("efmls-configs.linters.solhint")
-	local cpplint = require("efmls-configs.linters.cpplint")
 	local clang_format = require("efmls-configs.formatters.clang_format")
 
-	-- Configure EFM server
+	-- Configure EFM server with CS50-friendly settings
 	lspconfig.efm.setup({
 		capabilities = capabilities,
 		on_attach = on_attach,
@@ -171,6 +190,10 @@ vim.diagnostic.config({
 			"solidity",
 			"html",
 			"css",
+            "c",
+            "cpp",
+            "h",
+            "hpp",
 		},
 		init_options = {
 			documentFormatting = true,
@@ -198,9 +221,18 @@ vim.diagnostic.config({
 				solidity = { solhint },
 				html = { eslint_d, prettierd },
 				css = { eslint_d, prettierd },
+                c = { clang_format },
+                cpp = { clang_format },
 			},
 		},
 	})
+    
+    -- A useful keymap for showing diagnostics in a float window
+    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { noremap=true, silent=true, desc = "Show diagnostic at cursor" })
+    
+    -- Also add a keymap to navigate between diagnostics
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { noremap=true, silent=true, desc = "Previous diagnostic" })
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { noremap=true, silent=true, desc = "Next diagnostic" })
 end
 
 return {
